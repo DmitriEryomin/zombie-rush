@@ -20,7 +20,6 @@ export class PathGenerator {
             x: sceneWidth * 0.3,
             y: sceneHeight * 0.1,
           },
-          { x: sceneWidth * 0.3, y: sceneHeight * 0.25 },
           { x: base.x + base.width * 0.2, y: sceneHeight * 0.25 },
           { x: base.x + base.width * 0.2, y: base.y }
         );
@@ -45,7 +44,7 @@ export class PathGenerator {
       case 'right':
         path.push(
           { x: sceneWidth * 0.85, y: 0 },
-          { x: sceneWidth * 0.85, y: sceneHeight * 0.5 },
+          { x: sceneWidth * 0.85, y: sceneHeight * 0.3 },
           { x: base.x + base.width, y: sceneHeight * 0.5 }
         );
         break;

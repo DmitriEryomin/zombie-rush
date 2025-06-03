@@ -72,7 +72,36 @@ export class PreloadScene extends Phaser.Scene {
   loadAssets() {
     // Towers
     this.load.image('tower', getAssetSrc('tower/Tower.png'));
+
+    // Machine Guns
     this.load.image('machine-gun', getAssetSrc('tower/MG.png'));
+    this.load.image('machine-gun-2', getAssetSrc('tower/MG2.png'));
+    this.load.image('machine-gun-3', getAssetSrc('tower/MG3.png'));
+
+    // Cannons
+    this.load.image('cannon', getAssetSrc('tower/Cannon.png'));
+    this.load.image('cannon-2', getAssetSrc('tower/Cannon2.png'));
+    this.load.image('cannon-3', getAssetSrc('tower/Cannon3.png'));
+
+    // Missile launchers
+    this.load.image(
+      'missile-launcher',
+      getAssetSrc('tower/Missile_Launcher.png')
+    );
+    this.load.image(
+      'missile-launcher-2',
+      getAssetSrc('tower/Missile_Launcher2.png')
+    );
+    this.load.image(
+      'missile-launcher-3',
+      getAssetSrc('tower/Missile_Launcher3.png')
+    );
+
+    // bullets
+    this.load.image('bullet-cannon', getAssetSrc('tower/Bullet_Cannon.png'));
+    this.load.image('bullet-mg', getAssetSrc('tower/Bullet_MG.png'));
+    this.load.image('missile', getAssetSrc('tower/Missile.png'));
+
     this.load.image('button', getAssetSrc('ui/button.png'));
 
     const frameCount = 16; // Adjust based on how many frames you have
