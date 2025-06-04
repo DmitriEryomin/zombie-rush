@@ -18,23 +18,9 @@ Zombi Rush is a tower defense game where you control a base with machine guns to
 
 - `/src` - Source code
   - `/assets` - Game assets (images, fonts, etc.)
-    - `/blood` - Blood splatter effects
-    - `/fonts` - Game fonts
-    - `/tower` - Tower and weapon sprites
-    - `/ui` - UI elements
-    - `/zombie` - Zombie sprite animations
   - `/game-objects` - Game entity classes
-    - `base.ts` - Player's base with machine gun
-    - `path.ts` - Path generation for zombies
-    - `zombie.ts` - Zombie entity with movement
-    - `zombie-wave.ts` - Wave management for zombies
   - `/scenes` - Phaser scenes
-    - `boot-scene.ts` - Initial loading scene
-    - `preload-scene.ts` - Asset preloading with progress bar
-    - `main-menu-scene.ts` - Game menu
-    - `game-scene.ts` - Main gameplay scene
   - `/services` - Game services
-    - `path-generator.ts` - Generates paths for zombies to follow
 
 ## Getting Started
 
