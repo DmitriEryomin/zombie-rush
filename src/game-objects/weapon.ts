@@ -41,7 +41,7 @@ const weaponsProps: Record<WeaponTypes, WeaponProps> = {
       offsets: [0], // Single barrel, no offsets
     },
     bullet: {
-      damage: 10,
+      damage: 5,
       speed: 500,
       image: 'bullet-mg',
     },
@@ -81,7 +81,7 @@ const weaponsProps: Record<WeaponTypes, WeaponProps> = {
       offsets: [-8, 0, 8],
     },
     bullet: {
-      damage: 10,
+      damage: 30,
       speed: 500,
       image: 'bullet-mg',
     },
@@ -97,7 +97,7 @@ const weaponsProps: Record<WeaponTypes, WeaponProps> = {
       offsets: [0],
     },
     bullet: {
-      damage: 10,
+      damage: 100,
       speed: 500,
       image: 'bullet-cannon',
     },
@@ -117,7 +117,7 @@ const weaponsProps: Record<WeaponTypes, WeaponProps> = {
       offsets: [-10, 10],
     },
     bullet: {
-      damage: 10,
+      damage: 200,
       speed: 500,
       image: 'bullet-cannon',
     },
@@ -137,7 +137,7 @@ const weaponsProps: Record<WeaponTypes, WeaponProps> = {
       offsets: [0],
     },
     bullet: {
-      damage: 10,
+      damage: 250,
       speed: 500,
       image: 'bullet-cannon',
     },
@@ -157,7 +157,7 @@ const weaponsProps: Record<WeaponTypes, WeaponProps> = {
       offsets: [0],
     },
     bullet: {
-      damage: 10,
+      damage: 200,
       speed: 500,
       image: 'missile',
     },
@@ -173,7 +173,7 @@ const weaponsProps: Record<WeaponTypes, WeaponProps> = {
       offsets: [-12, 12],
     },
     bullet: {
-      damage: 10,
+      damage: 400,
       speed: 500,
       image: 'missile',
     },
@@ -189,7 +189,7 @@ const weaponsProps: Record<WeaponTypes, WeaponProps> = {
       offsets: [6, 0, 6],
     },
     bullet: {
-      damage: 10,
+      damage: 600,
       speed: 500,
       image: 'missile',
     },
@@ -309,6 +309,8 @@ export class Weapon {
     const bullet = this.scene.physics.add
       .image(startX, startY, this.props.bullet.image)
       .setScale(0.5)
+      .setName('bullet')
+      .setData('damage', this.props.bullet.damage)
       .setRotation(bulletAngle);
 
     // Set bullet velocity based on direction and speed
@@ -319,7 +321,9 @@ export class Weapon {
 
     // Destroy bullet after it travels beyond firing range
     this.scene.time.delayedCall(
-      ((this.props.firingRange * 2) / this.props.bullet.speed) * 1000,
+      ((this.props.firingRange - this.props.barrel.offset) /
+        this.props.bullet.speed) *
+        1000,
       () => {
         if (bullet && bullet.active) {
           bullet.destroy();

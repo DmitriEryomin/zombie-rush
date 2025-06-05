@@ -41,10 +41,24 @@ export class GameScene extends Phaser.Scene {
     ];
   }
 
-  update(time: number, delta: number) {
-    this.zombieWaves.forEach((wave) => {
-      wave.update(time, delta);
+  update(_time: number, _delta: number) {
+    const zombies = this.children.list.filter(
+      (obj) => obj instanceof Zombie
+    ) as Zombie[];
+
+    this.physics.world.collide(zombies, this.base.shape, (zombie, base) => {
+      (zombie as Zombie).attack();
     });
-    this.base.update(time, delta);
+
+    const bullets = this.children.list.filter(
+      (obj) => obj instanceof Phaser.GameObjects.Image && obj.name === 'bullet'
+    ) as Phaser.GameObjects.Image[];
+    this.physics.world.overlap(bullets, zombies, (bulletBody, zombieBody) => {
+      const bullet = bulletBody as Phaser.GameObjects.Image;
+      const zombie = zombieBody as Zombie;
+
+      zombie.takeDamage(bullet.getData('damage') || 0);
+      bullet.destroy();
+    });
   }
 }

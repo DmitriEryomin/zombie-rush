@@ -6,7 +6,7 @@ export class Base {
   private health: number;
   private maxHealth: number;
 
-  private shape: Phaser.GameObjects.Rectangle;
+  #shape: Phaser.GameObjects.Rectangle;
 
   #width = 240;
   #height = 140;
@@ -20,15 +20,21 @@ export class Base {
     this.health = 100;
     this.maxHealth = 100;
 
-    this.shape = scene.add.rectangle(
-      x,
-      y,
-      this.#width,
-      this.#height,
-      0x000000,
-      0.1
-    );
-    this.shape.setOrigin(0, 0);
+    this.#shape = scene.add
+      .rectangle(x, y, this.#width, this.#height, 0x000000, 0.1)
+      .setName('base')
+      .setOrigin(0, 0);
+
+    // Add physics to the shape
+    scene.physics.add.existing(this.#shape); // true makes it a static body
+
+    // Enable collision detection
+    if (this.#shape.body) {
+      const body = this.#shape.body as Phaser.Physics.Arcade.Body;
+      body.setCollideWorldBounds(true);
+      // body.debugBodyColor = 0xff0000; // Set debug color for the body
+    }
+
     this.towers = [
       new Tower(scene, x, y, 'machine-gun'),
       new Tower(scene, x + this.#width, y, 'machine-gun-2'),
@@ -40,7 +46,7 @@ export class Base {
   takeDamage(amount: number) {
     this.health -= amount;
     if (this.health <= 0) {
-      this.shape.destroy();
+      this.#shape.destroy();
     }
   }
 
@@ -52,25 +58,23 @@ export class Base {
     return this.maxHealth;
   }
 
-  update(_time: number, _delta: number) {
-    this.towers.forEach((tower) => {
-      tower.update(_time, _delta);
-    });
+  get shape() {
+    return this.#shape;
   }
 
   get x() {
-    return this.shape.x;
+    return this.#shape.x;
   }
 
   get y() {
-    return this.shape.y;
+    return this.#shape.y;
   }
 
   get width() {
-    return this.shape.width;
+    return this.#shape.width;
   }
 
   get height() {
-    return this.shape.height;
+    return this.#shape.height;
   }
 }

@@ -104,13 +104,28 @@ export class PreloadScene extends Phaser.Scene {
 
     this.load.image('button', getAssetSrc('ui/button.png'));
 
-    const frameCount = 16; // Adjust based on how many frames you have
-    for (let i = 0; i < frameCount; i++) {
-      this.load.image(
-        `skeleton-move_${i}`,
-        getAssetSrc(`zombie/skeleton-move_${i}.png`)
-      );
-    }
+    this.load.spritesheet('zombie', getAssetSrc('zombie/walk-sprite.png'), {
+      frameWidth: 288,
+      frameHeight: 311,
+    });
+
+    this.load.spritesheet(
+      'zombie-attack',
+      getAssetSrc('zombie/attack-sprite.png'),
+      {
+        frameWidth: 318,
+        frameHeight: 294,
+      }
+    );
+
+    this.load.spritesheet(
+      'blood-splash',
+      getAssetSrc('blood/blood-sprite.png'),
+      {
+        frameWidth: 512,
+        frameHeight: 512,
+      }
+    );
   }
 
   create() {

@@ -6,6 +6,7 @@ export class Tower extends Phaser.GameObjects.Container {
 
   private closestZombie: Zombie | undefined;
   private weapon: Weapon;
+  private firingRange: Phaser.GameObjects.Arc;
 
   constructor(
     scene: Phaser.Scene,
@@ -24,10 +25,23 @@ export class Tower extends Phaser.GameObjects.Container {
 
     this.add(tower);
     this.add(this.weapon.gameObject);
-    // Uncomment to visualize firing range
-    scene.add.circle(x, y, this.weapon.props.firingRange, 0x000000, 0.1);
+    this.firingRange = scene.add.circle(
+      x,
+      y,
+      this.weapon.props.firingRange,
+      0x000,
+      // Set more alpha to visualize firing range
+      0
+    );
+    scene.physics.add.existing(this.firingRange);
+    if (this.firingRange.body) {
+      const body = this.firingRange.body as Phaser.Physics.Arcade.Body;
+      body.setCircle(this.weapon.props.firingRange); // Set the body to be a circle
+      body.setCollideWorldBounds(true);
+    }
 
     scene.add.existing(this);
+    scene.events.on('update', this.update, this);
   }
 
   get gun() {
@@ -35,27 +49,6 @@ export class Tower extends Phaser.GameObjects.Container {
   }
 
   update(time: number, delta: number) {
-    // Find closest zombie
-    if (!this.closestZombie?.active) {
-      const zombies = this.scene.children.list.filter(
-        (obj) => obj instanceof Zombie
-      ) as Zombie[];
-      for (const zombie of zombies) {
-        if (zombie.active) {
-          const distance = Phaser.Math.Distance.Between(
-            this.x,
-            this.y,
-            zombie.x,
-            zombie.y
-          );
-          if (distance <= this.weapon.props.firingRange) {
-            this.closestZombie = zombie;
-          }
-        }
-      }
-    }
-
-    // If we found a zombie nearby, aim at it
     if (this.closestZombie?.active) {
       const targetFixed = this.weapon.navigateTo(
         this.closestZombie.x,
@@ -66,7 +59,23 @@ export class Tower extends Phaser.GameObjects.Container {
         this.weapon.fire(time);
       }
     } else {
-      this.gun.rotation += this.patrolSpeed;
+      this.patrol();
     }
+  }
+
+  private patrol() {
+    this.gun.rotation += this.patrolSpeed;
+
+    const zombies = this.scene.children.list.filter(
+      (obj) => obj instanceof Zombie && obj.active
+    ) as Zombie[];
+
+    this.scene.physics.overlap(this.firingRange, zombies, (_, zombie) => {
+      if (this.closestZombie?.active) {
+        return;
+      }
+
+      this.closestZombie = zombie as Zombie;
+    });
   }
 }

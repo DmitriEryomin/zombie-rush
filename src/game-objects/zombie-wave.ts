@@ -21,9 +21,11 @@ export class ZombieWave {
     this.path = new Path(scene, pathCoordinates);
     this.zombieCount = zombieCount;
     this.infinite = infinite;
+
+    this.scene.events.on('update', this.update, this);
   }
 
-  update(time: number, delta: number) {
+  update(time: number, _delta: number) {
     if (time > this.nextEnemy) {
       if (this.infinite && this.zombies.countActive(true) < this.zombieCount) {
         this.addZombie();
@@ -33,11 +35,6 @@ export class ZombieWave {
       }
       this.nextEnemy = time + 3000; // 3 seconds between enemies
     }
-    // Update each zombie
-    this.zombies.getChildren().forEach((enemy) => {
-      const zombie = enemy as Zombie;
-      zombie.update(time, delta);
-    });
   }
 
   private addZombie() {
