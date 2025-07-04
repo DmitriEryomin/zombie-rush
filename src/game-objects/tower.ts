@@ -5,16 +5,10 @@ export class Tower extends Phaser.GameObjects.Container {
   private patrolSpeed: number = 0.002;
 
   private closestZombie: Zombie | undefined;
-  private weapon: Weapon;
-  private firingRange: Phaser.GameObjects.Arc;
+  private weapon: Weapon | null = null;
+  private firingRange?: Phaser.GameObjects.Arc;
 
-  constructor(
-    scene: Phaser.Scene,
-    x: number,
-    y: number,
-    weaponType: WeaponTypes,
-    weaponInitialRotationDegree: number = 0
-  ) {
+  constructor(scene: Phaser.Scene, x: number, y: number) {
     super(scene, x, y);
 
     const tower = scene.add
@@ -22,37 +16,45 @@ export class Tower extends Phaser.GameObjects.Container {
       .setName('tower')
       .setScale(0.25);
 
-    this.weapon = new Weapon(scene, weaponType, 0, 0);
+    this.add(tower);
+    scene.add.existing(this);
+  }
+
+  /**
+   * Adds a weapon to the tower.
+   * @param weaponType The type of weapon to add.
+   * @param weaponInitialRotationDegree The initial rotation of the weapon in degrees.
+   */
+  addWeapon(weaponType: WeaponTypes, weaponInitialRotationDegree: number = 0) {
+    this.weapon = new Weapon(this.scene, weaponType, 0, 0);
     this.weapon.gameObject.setRotation(
       Phaser.Math.DegToRad(weaponInitialRotationDegree)
     );
 
-    this.add(tower);
     this.add(this.weapon.gameObject);
-    this.firingRange = scene.add.circle(
-      x,
-      y,
+    this.firingRange = this.scene.add.circle(
+      this.x,
+      this.y,
       this.weapon.props.firingRange,
       0x000,
       // Set more alpha to visualize firing range
       0
     );
-    scene.physics.add.existing(this.firingRange);
+    this.scene.physics.add.existing(this.firingRange);
     if (this.firingRange.body) {
       const body = this.firingRange.body as Phaser.Physics.Arcade.Body;
       body.setCircle(this.weapon.props.firingRange); // Set the body to be a circle
       body.setCollideWorldBounds(true);
     }
 
-    scene.add.existing(this);
-    scene.events.on('update', this.update, this);
+    this.scene.events.on('update', this.handleUpdate, this);
   }
 
-  get gun() {
-    return this.weapon.gameObject;
-  }
+  private handleUpdate(time: number, delta: number) {
+    if (!this.weapon) {
+      return;
+    }
 
-  update(time: number, delta: number) {
     if (this.closestZombie?.active) {
       const targetFixed = this.weapon.navigateTo(
         this.closestZombie.x,
@@ -68,7 +70,11 @@ export class Tower extends Phaser.GameObjects.Container {
   }
 
   private patrol() {
-    this.gun.rotation += this.patrolSpeed;
+    if (!this.weapon || !this.firingRange) {
+      return;
+    }
+
+    this.weapon.gameObject.rotation += this.patrolSpeed;
 
     const zombies = this.scene.children.list.filter(
       (obj) => obj instanceof Zombie && obj.active

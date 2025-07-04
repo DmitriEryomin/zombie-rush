@@ -1,6 +1,14 @@
 import Phaser from 'phaser';
 
 import { Tower } from './tower';
+import type { WeaponTypes } from './weapon';
+
+const defaultWeapons: { gun: WeaponTypes; initialRotation: number }[] = [
+  { gun: 'machine-gun', initialRotation: 0 },
+  { gun: 'machine-gun-2', initialRotation: 0 },
+  { gun: 'machine-gun', initialRotation: 0 },
+  { gun: 'machine-gun', initialRotation: 0 },
+];
 
 export class Base {
   private health: number;
@@ -36,11 +44,15 @@ export class Base {
     }
 
     this.towers = [
-      new Tower(scene, x, y, 'machine-gun'),
-      new Tower(scene, x + this.#width, y, 'machine-gun-2'),
-      new Tower(scene, x, y + this.#height, 'machine-gun'),
-      new Tower(scene, x + this.#width, y + this.#height, 'machine-gun'),
+      new Tower(scene, x, y),
+      new Tower(scene, x + this.#width, y),
+      new Tower(scene, x, y + this.#height),
+      new Tower(scene, x + this.#width, y + this.#height),
     ];
+    this.towers.forEach((tower, index) => {
+      const weapon = defaultWeapons[index];
+      tower.addWeapon(weapon.gun, weapon.initialRotation);
+    });
   }
 
   takeDamage(amount: number) {
