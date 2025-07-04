@@ -4,16 +4,20 @@ import { ZombieWave } from '../game-objects/zombie-wave';
 import { Zombie } from '../game-objects/zombie';
 import { Base } from '../game-objects/base';
 import { PathGenerator } from '../services/path-generator';
+import { BulletCollider } from '../services/bullet-collider';
 
 export class GameScene extends Phaser.Scene {
   private zombieWaves: ZombieWave[] = [];
+  private bulletCollider: BulletCollider;
   private base!: Base;
 
   constructor() {
     super('GameScene');
+    this.bulletCollider = new BulletCollider();
   }
 
   create() {
+    BulletCollider.createBloodSplashAnimation(this);
     Zombie.createMoveAnimation(this);
     this.base = new Base(this);
 
@@ -21,24 +25,30 @@ export class GameScene extends Phaser.Scene {
       new ZombieWave(
         this,
         PathGenerator.generatePathToBase(this, this.base, 'top'),
-        4
+        14
       ),
       new ZombieWave(
         this,
         PathGenerator.generatePathToBase(this, this.base, 'left'),
-        3
+        13
       ),
       new ZombieWave(
         this,
         PathGenerator.generatePathToBase(this, this.base, 'down'),
-        2
+        12
       ),
       new ZombieWave(
         this,
         PathGenerator.generatePathToBase(this, this.base, 'right'),
-        5
+        15
       ),
     ];
+
+    this.zombieWaves.forEach((wave) => {
+      wave.attack();
+    });
+
+    this.bulletCollider.handleCollideWithZombie(this);
   }
 
   update(_time: number, _delta: number) {
@@ -48,17 +58,6 @@ export class GameScene extends Phaser.Scene {
 
     this.physics.world.collide(zombies, this.base.shape, (zombie, base) => {
       (zombie as Zombie).attack();
-    });
-
-    const bullets = this.children.list.filter(
-      (obj) => obj instanceof Phaser.GameObjects.Image && obj.name === 'bullet'
-    ) as Phaser.GameObjects.Image[];
-    this.physics.world.overlap(bullets, zombies, (bulletBody, zombieBody) => {
-      const bullet = bulletBody as Phaser.GameObjects.Image;
-      const zombie = zombieBody as Zombie;
-
-      zombie.takeDamage(bullet.getData('damage') || 0);
-      bullet.destroy();
     });
   }
 }

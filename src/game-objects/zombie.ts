@@ -87,37 +87,9 @@ export class Zombie extends Phaser.Physics.Arcade.Sprite {
     this.scene.events.emit('zombie-attacking', this);
   }
 
-  // TODO: replace bloodSplash logic from zombie
   takeDamage(amount: number) {
     // Logic for taking damage can be added here
     console.log(`Zombie took ${amount} damage!`);
-
-    // Random offset from zombie position
-    const offsetX = Phaser.Math.Between(-22, 22);
-    const offsetY = Phaser.Math.Between(-22, 22);
-
-    // Create blood splash with random position and scale
-    const bloodSplash = this.scene.add.sprite(
-      this.x + offsetX,
-      this.y + offsetY,
-      'blood-splash'
-    );
-
-    bloodSplash.setOrigin(0.5, 0.5);
-
-    // Random scale for variety
-    const scale = Phaser.Math.FloatBetween(0.1, 0.2);
-    bloodSplash.setScale(scale);
-
-    // Random rotation
-    bloodSplash.setRotation(Phaser.Math.FloatBetween(0, Math.PI * 2));
-
-    bloodSplash.play('blood-splash');
-
-    // Remove the blood splash sprite once the animation completes
-    bloodSplash.once('animationcomplete', () => {
-      bloodSplash.destroy();
-    });
 
     // Reduce health
     this.health -= amount;
@@ -141,15 +113,6 @@ export class Zombie extends Phaser.Physics.Arcade.Sprite {
       }),
       frameRate: 6,
       repeat: -1, // -1 means loop infinitely
-    });
-    scene.anims.create({
-      key: 'blood-splash',
-      frames: scene.anims.generateFrameNumbers('blood-splash', {
-        start: 0,
-        end: 15, // Adjust based on your spritesheet frame count
-      }),
-      frameRate: 16,
-      repeat: 0, // Play once
     });
   }
 }

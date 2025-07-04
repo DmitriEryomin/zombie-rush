@@ -7,6 +7,7 @@ export type WeaponTypes =
   | 'cannon-3';
 
 type WeaponProps = {
+  type: 'machine-gun' | 'cannon';
   imageOrigins: [number, number];
   navigationSpeed: number;
   firingRange: number;
@@ -29,6 +30,7 @@ type WeaponProps = {
 
 const weaponsProps: Record<WeaponTypes, WeaponProps> = {
   'machine-gun': {
+    type: 'machine-gun',
     imageOrigins: [0.33, 0.7],
     navigationSpeed: 0.6,
     firingRange: 300,
@@ -49,6 +51,7 @@ const weaponsProps: Record<WeaponTypes, WeaponProps> = {
     },
   },
   'machine-gun-2': {
+    type: 'machine-gun',
     imageOrigins: [0.25, 0.5],
     navigationSpeed: 0.6,
     firingRange: 300,
@@ -69,6 +72,7 @@ const weaponsProps: Record<WeaponTypes, WeaponProps> = {
     },
   },
   'machine-gun-3': {
+    type: 'machine-gun',
     imageOrigins: [0.3, 0.65],
     navigationSpeed: 0.6,
     firingRange: 300,
@@ -85,6 +89,7 @@ const weaponsProps: Record<WeaponTypes, WeaponProps> = {
     fireRate: 100,
   },
   cannon: {
+    type: 'cannon',
     imageOrigins: [0.25, 0.5],
     navigationSpeed: 0.008,
     firingRange: 500,
@@ -105,6 +110,7 @@ const weaponsProps: Record<WeaponTypes, WeaponProps> = {
     },
   },
   'cannon-2': {
+    type: 'cannon',
     imageOrigins: [0.3, 0.5],
     navigationSpeed: 0.008,
     firingRange: 500,
@@ -125,6 +131,7 @@ const weaponsProps: Record<WeaponTypes, WeaponProps> = {
     },
   },
   'cannon-3': {
+    type: 'cannon',
     imageOrigins: [0.33, 0.5],
     navigationSpeed: 0.008,
     firingRange: 500,
@@ -259,7 +266,10 @@ export class Weapon {
       .image(startX, startY, this.props.bullet.image)
       .setScale(0.5)
       .setName('bullet')
-      .setData('damage', this.props.bullet.damage)
+      .setData({
+        type: `${this.props.type}-bullet`,
+        damage: this.props.bullet.damage,
+      })
       .setRotation(bulletAngle);
 
     // Set bullet velocity based on direction and speed

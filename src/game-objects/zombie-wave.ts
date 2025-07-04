@@ -21,11 +21,13 @@ export class ZombieWave {
     this.path = new Path(scene, pathCoordinates);
     this.zombieCount = zombieCount;
     this.infinite = infinite;
+  }
 
+  attack() {
     this.scene.events.on('update', this.update, this);
   }
 
-  update(time: number, _delta: number) {
+  private update(time: number, _delta: number) {
     if (time > this.nextEnemy) {
       if (this.infinite && this.zombies.countActive(true) < this.zombieCount) {
         this.addZombie();
