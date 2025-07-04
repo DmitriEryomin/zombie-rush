@@ -38,7 +38,7 @@ export class Base {
     this.towers = [
       new Tower(scene, x, y, 'machine-gun'),
       new Tower(scene, x + this.#width, y, 'machine-gun-2'),
-      new Tower(scene, x, y + this.#height, 'machine-gun-3'),
+      new Tower(scene, x, y + this.#height, 'machine-gun'),
       new Tower(scene, x + this.#width, y + this.#height, 'machine-gun'),
     ];
   }

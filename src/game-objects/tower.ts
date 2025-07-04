@@ -12,7 +12,8 @@ export class Tower extends Phaser.GameObjects.Container {
     scene: Phaser.Scene,
     x: number,
     y: number,
-    weaponType: WeaponTypes
+    weaponType: WeaponTypes,
+    weaponInitialRotationDegree: number = 0
   ) {
     super(scene, x, y);
 
@@ -22,6 +23,9 @@ export class Tower extends Phaser.GameObjects.Container {
       .setScale(0.25);
 
     this.weapon = new Weapon(scene, weaponType, 0, 0);
+    this.weapon.gameObject.setRotation(
+      Phaser.Math.DegToRad(weaponInitialRotationDegree)
+    );
 
     this.add(tower);
     this.add(this.weapon.gameObject);

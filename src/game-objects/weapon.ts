@@ -4,10 +4,7 @@ export type WeaponTypes =
   | 'machine-gun-3'
   | 'cannon'
   | 'cannon-2'
-  | 'cannon-3'
-  | 'missile-launcher'
-  | 'missile-launcher-2'
-  | 'missile-launcher-3';
+  | 'cannon-3';
 
 type WeaponProps = {
   imageOrigins: [number, number];
@@ -146,54 +143,6 @@ const weaponsProps: Record<WeaponTypes, WeaponProps> = {
       distance: 5,
       duration: 100,
     },
-  },
-  'missile-launcher': {
-    imageOrigins: [0.3, 0.5],
-    navigationSpeed: 0.2,
-    firingRange: 700,
-    barrel: {
-      offset: 60,
-      count: 1,
-      offsets: [0],
-    },
-    bullet: {
-      damage: 200,
-      speed: 500,
-      image: 'missile',
-    },
-    fireRate: 1500,
-  },
-  'missile-launcher-2': {
-    imageOrigins: [0.45, 0.5],
-    navigationSpeed: 0.2,
-    firingRange: 700,
-    barrel: {
-      offset: 60,
-      count: 2,
-      offsets: [-12, 12],
-    },
-    bullet: {
-      damage: 400,
-      speed: 500,
-      image: 'missile',
-    },
-    fireRate: 1500,
-  },
-  'missile-launcher-3': {
-    imageOrigins: [0.45, 0.5],
-    navigationSpeed: 0.2,
-    firingRange: 700,
-    barrel: {
-      offset: 60,
-      count: 3,
-      offsets: [6, 0, 6],
-    },
-    bullet: {
-      damage: 600,
-      speed: 500,
-      image: 'missile',
-    },
-    fireRate: 1500,
   },
 };
 

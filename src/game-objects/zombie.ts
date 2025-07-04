@@ -87,6 +87,7 @@ export class Zombie extends Phaser.Physics.Arcade.Sprite {
     this.scene.events.emit('zombie-attacking', this);
   }
 
+  // TODO: replace bloodSplash logic from zombie
   takeDamage(amount: number) {
     // Logic for taking damage can be added here
     console.log(`Zombie took ${amount} damage!`);

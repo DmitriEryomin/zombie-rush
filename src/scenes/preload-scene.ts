@@ -83,24 +83,9 @@ export class PreloadScene extends Phaser.Scene {
     this.load.image('cannon-2', getAssetSrc('tower/Cannon2.png'));
     this.load.image('cannon-3', getAssetSrc('tower/Cannon3.png'));
 
-    // Missile launchers
-    this.load.image(
-      'missile-launcher',
-      getAssetSrc('tower/Missile_Launcher.png')
-    );
-    this.load.image(
-      'missile-launcher-2',
-      getAssetSrc('tower/Missile_Launcher2.png')
-    );
-    this.load.image(
-      'missile-launcher-3',
-      getAssetSrc('tower/Missile_Launcher3.png')
-    );
-
     // bullets
     this.load.image('bullet-cannon', getAssetSrc('tower/Bullet_Cannon.png'));
     this.load.image('bullet-mg', getAssetSrc('tower/Bullet_MG.png'));
-    this.load.image('missile', getAssetSrc('tower/Missile.png'));
 
     this.load.image('button', getAssetSrc('ui/button.png'));
 
