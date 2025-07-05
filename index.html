@@ -11,8 +11,42 @@
     />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Zombi Rush</title>
+    <style>
+      #wave-configuration {
+        display: none;
+      }
+    </style>
   </head>
   <body>
+    <form id="wave-configuration">
+      <h3>Wave Configuration</h3>
+      <div>
+        <label for="zombies-count">Zombies Count</label>
+        <input
+          type="number"
+          id="zombies-count"
+          name="zombies-count"
+          placeholder="0-100"
+          min="1"
+          max="100"
+          required
+        />
+      </div>
+      <div>
+        <label for="infinite-zombies">Infinite Zombies</label>
+        <input type="checkbox" id="infinite-zombies" name="infinite-zombies" />
+      </div>
+      <div>
+        <label for="attack-direction">Spawn Direction</label>
+        <select name="attack-direction" id="attack-direction" required>
+          <option value="top">Top</option>
+          <option value="down">Down</option>
+          <option value="left">Left</option>
+          <option value="right">Right</option>
+        </select>
+      </div>
+      <button type="submit">Start Wave</button>
+    </form>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

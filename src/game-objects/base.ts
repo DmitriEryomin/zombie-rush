@@ -4,10 +4,10 @@ import { Tower } from './tower';
 import type { WeaponTypes } from './weapon';
 
 const defaultWeapons: { gun: WeaponTypes; initialRotation: number }[] = [
-  { gun: 'machine-gun', initialRotation: 0 },
-  { gun: 'machine-gun-2', initialRotation: 0 },
-  { gun: 'machine-gun', initialRotation: 0 },
-  { gun: 'machine-gun', initialRotation: 0 },
+  { gun: 'machine-gun', initialRotation: -90 },
+  { gun: 'machine-gun-2', initialRotation: -90 },
+  { gun: 'machine-gun', initialRotation: 90 },
+  { gun: 'machine-gun', initialRotation: 90 },
 ];
 
 export class Base {

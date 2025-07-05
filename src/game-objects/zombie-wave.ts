@@ -9,11 +9,13 @@ export class ZombieWave {
   private scene: Phaser.Scene;
   private zombieCount: number;
   private createdZombies = 0;
+  private _attackDirection: 'left' | 'right' | 'top' | 'down';
 
   constructor(
     scene: Phaser.Scene,
     pathCoordinates: PathPoint[],
     zombieCount = 3,
+    attackDirection: 'left' | 'right' | 'top' | 'down',
     infinite = false
   ) {
     this.scene = scene;
@@ -21,6 +23,15 @@ export class ZombieWave {
     this.path = new Path(scene, pathCoordinates);
     this.zombieCount = zombieCount;
     this.infinite = infinite;
+    this._attackDirection = attackDirection;
+  }
+
+  get attackDirection() {
+    return this._attackDirection;
+  }
+
+  get finished() {
+    return this.createdZombies === this.zombieCount && !this.infinite;
   }
 
   attack() {

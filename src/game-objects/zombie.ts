@@ -11,7 +11,7 @@ export class Zombie extends Phaser.Physics.Arcade.Sprite {
     // Initialize at the start of the path
     const startPoint = path.getStartPoint();
     super(scene, startPoint.x, startPoint.y, 'zombie', 0);
-    this.setDisplaySize(83, 90);
+    this.setDisplaySize(68, 75);
 
     // Add to scene and physics
     scene.add.existing(this);

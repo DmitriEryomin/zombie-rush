@@ -6,10 +6,15 @@ import { Base } from '../game-objects/base';
 import { PathGenerator } from '../services/path-generator';
 import { BulletCollider } from '../services/bullet-collider';
 import { TowerBase } from '../game-objects/tower-base';
+import {
+  ZombieWaveConfiguration,
+  type ConfigurationSubmittedEvent,
+} from '../ui/zombie-wave-configuration';
 
 export class GameScene extends Phaser.Scene {
   private zombieWaves: ZombieWave[] = [];
   private bulletCollider: BulletCollider;
+  private zombieWaveConfiguration!: ZombieWaveConfiguration;
   private base!: Base;
 
   constructor() {
@@ -20,36 +25,39 @@ export class GameScene extends Phaser.Scene {
   create() {
     BulletCollider.createBloodSplashAnimation(this);
     Zombie.createMoveAnimation(this);
+    this.bulletCollider.handleCollideWithZombie(this);
+    this.zombieWaveConfiguration = new ZombieWaveConfiguration();
+
     this.base = new Base(this);
 
-    this.zombieWaves = [
-      new ZombieWave(
-        this,
-        PathGenerator.generatePathToBase(this, this.base, 'top'),
-        14
-      ),
-      new ZombieWave(
-        this,
-        PathGenerator.generatePathToBase(this, this.base, 'left'),
-        13
-      ),
-      new ZombieWave(
-        this,
-        PathGenerator.generatePathToBase(this, this.base, 'down'),
-        12
-      ),
-      new ZombieWave(
-        this,
-        PathGenerator.generatePathToBase(this, this.base, 'right'),
-        15
-      ),
-    ];
+    this.zombieWaveConfiguration.on(
+      'configurationSubmitted',
+      (event: ConfigurationSubmittedEvent) => {
+        const { infinite, zombieCount, attackDirection } = event;
+        if (this.zombieWaves.length === 4) {
+          return;
+        }
 
-    this.zombieWaves.forEach((wave) => {
-      wave.attack();
-    });
+        if (
+          this.zombieWaves.some(
+            (wave) => wave.attackDirection === attackDirection
+          )
+        ) {
+          alert(`A wave with direction ${attackDirection} already exists.`);
+          return;
+        }
 
-    this.bulletCollider.handleCollideWithZombie(this);
+        const zombieWave = new ZombieWave(
+          this,
+          PathGenerator.generatePathToBase(this, this.base, attackDirection),
+          zombieCount,
+          attackDirection,
+          infinite
+        );
+        this.zombieWaves.push(zombieWave);
+        zombieWave.attack();
+      }
+    );
 
     new TowerBase(this, 500, 250);
     new TowerBase(this, 700, 800);
@@ -64,5 +72,7 @@ export class GameScene extends Phaser.Scene {
     this.physics.world.collide(zombies, this.base.shape, (zombie, base) => {
       (zombie as Zombie).attack();
     });
+
+    this.zombieWaves.filter((wave) => !wave.finished);
   }
 }
