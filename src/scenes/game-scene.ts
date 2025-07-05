@@ -5,6 +5,7 @@ import { Zombie } from '../game-objects/zombie';
 import { Base } from '../game-objects/base';
 import { PathGenerator } from '../services/path-generator';
 import { BulletCollider } from '../services/bullet-collider';
+import { TowerBase } from '../game-objects/tower-base';
 
 export class GameScene extends Phaser.Scene {
   private zombieWaves: ZombieWave[] = [];
@@ -49,6 +50,10 @@ export class GameScene extends Phaser.Scene {
     });
 
     this.bulletCollider.handleCollideWithZombie(this);
+
+    new TowerBase(this, 500, 250);
+    new TowerBase(this, 700, 800);
+    new TowerBase(this, 300, 450);
   }
 
   update(_time: number, _delta: number) {

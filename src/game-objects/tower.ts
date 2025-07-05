@@ -30,16 +30,16 @@ export class Tower extends Phaser.GameObjects.Container {
     this.weapon.gameObject.setRotation(
       Phaser.Math.DegToRad(weaponInitialRotationDegree)
     );
-
-    this.add(this.weapon.gameObject);
     this.firingRange = this.scene.add.circle(
-      this.x,
-      this.y,
+      0,
+      0,
       this.weapon.props.firingRange,
       0x000,
       // Set more alpha to visualize firing range
       0
     );
+    this.add([this.firingRange, this.weapon.gameObject]);
+
     this.scene.physics.add.existing(this.firingRange);
     if (this.firingRange.body) {
       const body = this.firingRange.body as Phaser.Physics.Arcade.Body;
@@ -76,16 +76,36 @@ export class Tower extends Phaser.GameObjects.Container {
 
     this.weapon.gameObject.rotation += this.patrolSpeed;
 
-    const zombies = this.scene.children.list.filter(
-      (obj) => obj instanceof Zombie && obj.active
-    ) as Zombie[];
+    const arcadeBodiesInRange = this.scene.physics
+      .overlapCirc(this.x, this.y, this.firingRange.radius)
+      .filter(
+        (obj) => obj.gameObject instanceof Zombie && obj.gameObject.active
+      );
 
-    this.scene.physics.overlap(this.firingRange, zombies, (_, zombie) => {
-      if (this.closestZombie?.active) {
-        return;
-      }
+    type Closest = {
+      zombie: Zombie | null;
+      distance: number;
+    };
 
-      this.closestZombie = zombie as Zombie;
-    });
+    // Find the closest zombie in range
+    const { zombie } = arcadeBodiesInRange.reduce(
+      (closest, arcadeBody) => {
+        const distance = Phaser.Math.Distance.Between(
+          this.x,
+          this.y,
+          (arcadeBody.gameObject as Zombie).x,
+          (arcadeBody.gameObject as Zombie).y
+        );
+        if (!closest || distance < closest.distance) {
+          return { zombie: arcadeBody.gameObject as Zombie, distance };
+        }
+        return closest;
+      },
+      { zombie: null, distance: Infinity } as Closest
+    );
+
+    if (zombie) {
+      this.closestZombie = zombie;
+    }
   }
 }

@@ -91,7 +91,7 @@ const weaponsProps: Record<WeaponTypes, WeaponProps> = {
   cannon: {
     type: 'cannon',
     imageOrigins: [0.25, 0.5],
-    navigationSpeed: 0.008,
+    navigationSpeed: 0.08,
     firingRange: 500,
     barrel: {
       offset: 60,
@@ -112,7 +112,7 @@ const weaponsProps: Record<WeaponTypes, WeaponProps> = {
   'cannon-2': {
     type: 'cannon',
     imageOrigins: [0.3, 0.5],
-    navigationSpeed: 0.008,
+    navigationSpeed: 0.08,
     firingRange: 500,
     barrel: {
       offset: 60,
@@ -133,7 +133,7 @@ const weaponsProps: Record<WeaponTypes, WeaponProps> = {
   'cannon-3': {
     type: 'cannon',
     imageOrigins: [0.33, 0.5],
-    navigationSpeed: 0.008,
+    navigationSpeed: 0.08,
     firingRange: 500,
     barrel: {
       offset: 60,
