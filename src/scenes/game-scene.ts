@@ -91,7 +91,7 @@ export class GameScene extends Phaser.Scene {
       (obj) => obj instanceof Zombie
     ) as Zombie[];
 
-    this.physics.world.collide(zombies, this.base.shape, (zombie, base) => {
+    this.physics.world.collide(zombies, this.base.shape, (zombie, _base) => {
       (zombie as Zombie).attack();
     });
 
