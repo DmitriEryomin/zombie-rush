@@ -70,6 +70,19 @@ export class PreloadScene extends Phaser.Scene {
   }
 
   loadAssets() {
+    // Textures
+    this.load.image('ground', getAssetSrc('tiles/ground/ground_tiles_12.png'));
+
+    // Cars
+    this.load.image('car_1', getAssetSrc('cars/car_1.png'));
+    this.load.image('car_1_shadow', getAssetSrc('cars/car_1_shadow.png'));
+
+    this.load.image('car_2', getAssetSrc('cars/car_2.png'));
+    this.load.image('car_2_shadow', getAssetSrc('cars/car_2_shadow.png'));
+
+    this.load.image('car_3', getAssetSrc('cars/car_3.png'));
+    this.load.image('car_3_shadow', getAssetSrc('cars/car_3_shadow.png'));
+
     // Towers
     this.load.image('tower', getAssetSrc('tower/Tower.png'));
 
