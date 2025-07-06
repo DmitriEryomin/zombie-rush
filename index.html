@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap"
+      rel="stylesheet"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zombi Rush</title>
+    <style>
+      #wave-configuration {
+        display: none;
+      }
+    </style>
+    <script type="module" crossorigin src="/assets/index-D5sZNi03.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-CH4T9CMX.css">
+  </head>
+  <body>
+    <form id="wave-configuration">
+      <h3>Wave Configuration</h3>
+      <div>
+        <label for="zombies-count">Zombies Count</label>
+        <input
+          type="number"
+          id="zombies-count"
+          name="zombies-count"
+          placeholder="0-100"
+          min="1"
+          max="100"
+          required
+        />
+      </div>
+      <div>
+        <label for="infinite-zombies">Infinite Zombies</label>
+        <input type="checkbox" id="infinite-zombies" name="infinite-zombies" />
+      </div>
+      <div>
+        <label for="attack-direction">Spawn Direction</label>
+        <select name="attack-direction" id="attack-direction" required>
+          <option value="top">Top</option>
+          <option value="down">Down</option>
+          <option value="left">Left</option>
+          <option value="right">Right</option>
+        </select>
+      </div>
+      <button type="submit">Start Wave</button>
+    </form>
+  </body>
+</html>
