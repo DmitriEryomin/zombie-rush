@@ -61,10 +61,13 @@ export class GameScene extends Phaser.Scene {
       }
     );
 
-    new TowerBase(this, 500, 250);
-    new TowerBase(this, 700, 800);
-    new TowerBase(this, 300, 450);
-    new TowerBase(this, 900, 550);
+    const w = this.cameras.main.width;
+    const h = this.cameras.main.height;
+
+    new TowerBase(this, w * 0.5, h * 0.25);
+    new TowerBase(this, w * 0.5, h * 0.75);
+    new TowerBase(this, w * 0.3, h * 0.45);
+    new TowerBase(this, w * 0.7, h * 0.45);
     // fill all scene with desert texture
   }
 
@@ -76,14 +79,34 @@ export class GameScene extends Phaser.Scene {
     }
 
     // TODO: create Car class
-    this.add.image(400, 350, 'car_1_shadow').setScale(0.14).setAngle(35);
-    this.add.image(400, 350, 'car_1').setScale(0.13).setAngle(35);
+    const w = this.cameras.main.width;
+    const h = this.cameras.main.height;
+    this.add
+      .image(w * 0.2, h * 0.3, 'car_1_shadow')
+      .setScale(0.14)
+      .setAngle(35);
+    this.add
+      .image(w * 0.2, h * 0.3, 'car_1')
+      .setScale(0.13)
+      .setAngle(35);
     //
-    this.add.image(850, 250, 'car_2_shadow').setScale(0.14).setAngle(20);
-    this.add.image(850, 250, 'car_2').setScale(0.13).setAngle(20);
+    this.add
+      .image(w * 0.65, h * 0.2, 'car_2_shadow')
+      .setScale(0.14)
+      .setAngle(20);
+    this.add
+      .image(w * 0.65, h * 0.2, 'car_2')
+      .setScale(0.13)
+      .setAngle(20);
     //
-    this.add.image(850, 850, 'car_3_shadow').setScale(0.14).setAngle(80);
-    this.add.image(850, 850, 'car_3').setScale(0.13).setAngle(80);
+    this.add
+      .image(w * 0.85, 850, 'car_3_shadow')
+      .setScale(0.14)
+      .setAngle(80);
+    this.add
+      .image(w * 0.85, 850, 'car_3')
+      .setScale(0.13)
+      .setAngle(80);
   }
 
   update(_time: number, _delta: number) {
